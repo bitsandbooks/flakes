@@ -74,21 +74,22 @@ $ zfs list
 NAME    USED  AVAIL  REFER  MOUNTPOINT
 trunk   408K  47.0G    96K  legacy
 # create ZFS datasets
-$ zfs create -p trunk/user/home
-$ zfs create -p trunk/local/nix
-$ zfs set relatime=off trunk/local/nix
-$ zfs create -p trunk/system/root
-$ zfs snapshot trunk/system/root@empty
+$ zfs create -p "$POOLNAME/user/home"
+$ zfs create -p "$POOLNAME/local/nix"
+$ zfs set relatime=off "$POOLNAME/local/nix"
+$ zfs snapshot "$POOLNAME/local/nix@blank"
+$ zfs create -p "$POOLNAME/system/root"
+$ zfs snapshot "$POOLNAME/system/root@blank"
 # list ZFS datasets
 $ zfs list
 $ zfs list -t snapshot
 
 # Mount datasets for install
-$ mount -t zfs trunk/system/root /mnt
+$ mount -t zfs "$POOLNAME/system/root" /mnt
 $ mkdir /mnt/boot /mnt/home /mnt/nix
 $ mount -t vfat /dev/vda1 /mnt/boot
-$ mount -t zfs trunk/user/home /mnt/home
-$ mount -t zfs trunk/local/nix /mnt/nix
+$ mount -t zfs "$POOLNAME/user/home" /mnt/home
+$ mount -t zfs "$POOLNAME/local/nix" /mnt/nix
 
 # Generate config
 $ nixos-generate-config --root /mnt
