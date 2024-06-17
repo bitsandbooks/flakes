@@ -55,24 +55,24 @@ no pools available
 $ l /dev/disk/by-partuuid/
 # copy uuid that points to vda2; this is the ZFS pool vdev
 $ VDEV="/dev/disk/by-partuuid/a88e1008-5456-46f0-8513-0a6d43f43ce4"
-$ POOLNAME=trunk
+$ POOLNAME=zp0
 $ POOLOPTIONS="-o ashift=12 -o autoexpand=on -o autotrim=on"
 $ DATASETOPTIONS="-O compression=zstd -O canmount=off -O mountpoint=legacy -O atime=off -O relatime=on -O dnodesize=auto -O normalization=formD -O xattr=sa -O acltype=posixacl"
 $ zpool create $POOLOPTIONS $DATASETOPTIONS $POOLNAME $VDEV
 $ zpool status
-  pool: trunk
+  pool: zp0
  state: ONLINE
 config:
 
 	NAME                                    STATE     READ WRITE CKSUM
-	trunk                                   ONLINE       0     0     0
+	zp0                                     ONLINE       0     0     0
 	  a88e1008-5456-46f0-8513-0a6d43f43ce4  ONLINE       0     0     0
 
 errors: No known data errors
 # List ZFS datasets
 $ zfs list
 NAME    USED  AVAIL  REFER  MOUNTPOINT
-trunk   408K  47.0G    96K  legacy
+zp0     408K  47.0G    96K  legacy
 # create ZFS datasets
 $ zfs create -p "$POOLNAME/user/home"
 $ zfs create -p "$POOLNAME/local/nix"
