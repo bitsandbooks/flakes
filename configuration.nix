@@ -2,17 +2,29 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./user-configuration.nix
+    inputs.home-manager.nixosModules.default
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ]; # Enable flakes.
 
-  time.timeZone = "America/Chicago"; # Set your time zone.
+  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = "America/Chicago";
+
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    supportedFilesystems = [ "zfs" ];
+    zfs.devNodes = "/dev/disk/by-partuuid"; # Necessary for zpool to import on boot.
+  };
 
   networking = {
     firewall = {
@@ -32,43 +44,6 @@
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
   };
 
-  boot = {
-    supportedFilesystems = [ "zfs" ];
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    zfs.devNodes = "/dev/disk/by-partuuid";
-  };
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users = {
-    groups.nihilsum.gid = 9000;
-    users.torgo = {
-      description = "Torgo the Caretaker";
-      isNormalUser = true;
-      group = "nihilsum";
-      extraGroups = [
-        "wheel" # Enable ‘sudo’ for the user.
-      ];
-      shell = pkgs.zsh;
-      uid = 9000;
-      hashedPassword = "$6$2ZPIIRNC2AW5LqLQ$GGHwcEwyuGUiyxKLcCs5pxy5CwKqEvLMmpB6zLOw4/RlLPJT2VN9b8ewZkDwl5RJn45Q5j90ZoI2HuaFMMPgP/";
-      home = "/home/torgo";
-      packages = with pkgs; [
-        neofetch
-      ];
-    };
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -80,17 +55,24 @@
   };
 
   programs = {
-    zsh.enable = true;
+    zsh = {
+      enable = true;
+      ohMyZsh.enable = true;
+    };
   };
 
   services = {
     # services.libinput.enable = true; # Enable touchpad support (enabled default in most desktopManager).
-    openssh.enable = true; # Enable the OpenSSH daemon.
+    openssh = {
+      enable = true; # Enable the OpenSSH daemon.
+      settings.PermitRootLogin = "yes";
+    };
     pipewire = {
       # sound server
       enable = true;
       pulse.enable = true;
     };
+    qemuGuest.enable = true;
     # printing.enable = true; # Enable CUPS to print documents.
     # services.xserver = {
     #   enable = true;
@@ -102,28 +84,15 @@
     # };
   };
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
+  # Module stuff
+  user-configuration.enable = true;
+  user-configuration.groupName = "nihilsum";
+  user-configuration.userName = "torgo";
 
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
   # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.05";
 
 }
