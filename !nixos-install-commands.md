@@ -16,7 +16,7 @@ Start here: on a libvirt host with a VM booted from the NixOS ISO. The VM in thi
 
 ## Now go to another machine on the same network and SSH in
 
-    ssh -o PreferredAuthentications=password nixos@192.168.122.212
+    ssh -o PreferredAuthentications=password -o UserKnownHostsFile=/dev/null nixos@192.168.122.212
 
 You're now connected to the running nixos VM.
 
