@@ -2,11 +2,11 @@
 
 Start here: on a libvirt host with a VM booted from the NixOS ISO. The VM in this tutorial has two disks attached: a 50 GB disk for the UEFI system partition and the ZFS pool that NixOS will use, and a 16 GB second disk for swap.
 
-1. Set password for install user nixos
+## Set password for install user nixos
 
     passwd
 
-2. Get IP address
+## Get IP address
 
     ip addr
     1: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
