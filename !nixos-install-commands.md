@@ -33,7 +33,7 @@ second disk for swap.
     sr0    11:0    1   820M  0  rom /iso
     vda   253:0    0    50G  0 disk
     vda   253:16   0    16G  0 disk
-    $ free -h
+    free -h
            total   used   free  shared  buff/cache  available
     Mem:   7.8Gi  140Mi  7.3Gi    29Mi       273Mi      7.4Gi
     Swap:     0B     0B     0B
