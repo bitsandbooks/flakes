@@ -11,8 +11,8 @@ second disk for swap.
 
 ## Get IP address
 
-    ip --color=auto addr
-    3: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    ip addr
+    1: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
         link/ether 52:54:00:26:55:c3 brd ff:ff:ff:ff:ff:ff
         inet 192.168.122.212/24 brd 192.168.110.255 scope global dynamic noprefixroute enp7s0
            valid_lft 2662sec preferred_lft 2662sec
@@ -33,6 +33,7 @@ second disk for swap.
     sr0    11:0    1   820M  0  rom /iso
     vda   253:0    0    50G  0 disk
     vda   253:16   0    16G  0 disk
+    
     free -h
            total   used   free  shared  buff/cache  available
     Mem:   7.8Gi  140Mi  7.3Gi    29Mi       273Mi      7.4Gi
