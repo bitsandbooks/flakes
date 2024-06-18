@@ -39,6 +39,7 @@ This tutorial assumes your two disks are `vda` and `vdb`, but they may be someth
            total   used   free  shared  buff/cache  available
     Mem:   7.8Gi  140Mi  7.3Gi    29Mi       273Mi      7.4Gi
     Swap:     0B     0B     0B
+
 ## Create a single swap partition on vdb
 
     gdisk /dev/vdb
@@ -49,7 +50,7 @@ This tutorial assumes your two disks are `vda` and `vdb`, but they may be someth
     mkswap /dev/vdb1
     swapon /dev/vdb1
 
-## We should now have 16GB of swap
+We should now have 16GB of swap.
 
     free -h
 
