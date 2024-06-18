@@ -1,15 +1,12 @@
 # Installing NixOS
 
-Start here: on a libvirt host (here called `libvirthost`) with a VM booted 
-from the NixOS ISO. This VM has two disks attached: a 50 GB disk for the 
-UEFI system partition and the ZFS pool that NixOS will use, and a 16 GB 
-second disk for swap.
+Start here: on a libvirt host with a VM booted from the NixOS ISO. The VM in this tutorial has two disks attached: a 50 GB disk for the UEFI system partition and the ZFS pool that NixOS will use, and a 16 GB second disk for swap.
 
-## Set password for install user nixos
+1. Set password for install user nixos
 
     passwd
 
-## Get IP address
+2. Get IP address
 
     ip addr
     1: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
@@ -19,13 +16,17 @@ second disk for swap.
 
 ## Now go to another machine on the same network and SSH in
 
-    ssh -o PreferredAuthentications=password -J libvirthost nixos@192.168.122.212
+    ssh -o PreferredAuthentications=password nixos@192.168.122.212
 
-## You're now connected to the running nixos VM. In order to install NixOS, become the superuser
+You're now connected to the running nixos VM.
+
+## Become the superuser
 
     sudo -i
 
-## Check block devices and free memory. This tutorial assumes your two disks are `vda` and `vdb`, but they may be something different, like `sda` or `hda`.
+## Check block devices and free memory
+
+This tutorial assumes your two disks are `vda` and `vdb`, but they may be something different, like `sda` or `hda`.
 
     lsblk
     NAME  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
