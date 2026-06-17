@@ -10,12 +10,16 @@
   };
 
   outputs = { self, nixpkgs, ... }@inputs: {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./configuration.nix
-        inputs.home-manager.nixosModules.default
-      ];
+    nixosConfigurations = {
+      testvm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs;};
+        modules = [
+          ./configuration.nix
+          ./hardware-configuration-textvm.nix
+          inputs.home-manager.nixosModules.default
+        ];
+      };
     };
   };
 }
