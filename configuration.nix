@@ -12,7 +12,17 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ]; # Enable flakes.
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ]; # Enable flakes.
+    substituters = [
+      "http://192.168.5.50"
+      "https://cache.nixos.org"
+    ];
+    # Optional but recommended: require signatures from the official cache
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    ];
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
   time.timeZone = "America/Chicago";
@@ -37,7 +47,7 @@
       ];
     };
     hostId = "0123abcd"; # Hex value; required for ZFS.
-    hostName = "nixos-2405-base"; # Define your hostname.
+    hostName = "nixos-2605-base"; # Define your hostname.
     networkmanager.enable = true;
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
@@ -67,13 +77,13 @@
       enable = true; # Enable the OpenSSH daemon.
       settings.PermitRootLogin = "yes";
     };
-    pipewire = {
-      # sound server
-      enable = true;
-      pulse.enable = true;
-    };
-    qemuGuest.enable = true;
+    # pipewire = {
+    #   # sound server
+    #   enable = true;
+    #   pulse.enable = true;
+    # };
     # printing.enable = true; # Enable CUPS to print documents.
+    qemuGuest.enable = true;
     # services.xserver = {
     #   enable = true;
     #   xkb = {
@@ -93,6 +103,6 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "24.05";
+  system.stateVersion = "26.05";
 
 }

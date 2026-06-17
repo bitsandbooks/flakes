@@ -40,7 +40,7 @@ in
       };
     };
     home-manager = {
-      specialArgs = { inherit inputs; };
+      extraSpecialArgs = { inherit inputs; };
       users = {
         "torgo" = import ./home.nix;
       };

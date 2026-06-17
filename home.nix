@@ -14,13 +14,12 @@
     # You should not change this value, even if you update Home Manager. If you do
     # want to update the value, then make sure to first check the Home Manager
     # release notes.
-    stateVersion = "24.05"; # Please read the comment before changing.
+    stateVersion = "26.05"; # Please read the comment before changing.
 
     # The home.packages option allows you to install Nix packages into your
     # environment.
     packages = with pkgs; [
       (lib.hiPrio home-manager)
-      hyprland
       oh-my-zsh
 
       # # It is sometimes useful to fine-tune packages, for example, by applying
