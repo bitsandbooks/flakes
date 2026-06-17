@@ -16,7 +16,7 @@
         specialArgs = {inherit inputs;};
         modules = [
           ./configuration.nix
-          ./hardware-configuration-textvm.nix
+          ./hardware-configuration-testvm.nix
           inputs.home-manager.nixosModules.default
         ];
       };
