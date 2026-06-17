@@ -35,7 +35,7 @@ in
         hashedPassword = "$6$2ZPIIRNC2AW5LqLQ$GGHwcEwyuGUiyxKLcCs5pxy5CwKqEvLMmpB6zLOw4/RlLPJT2VN9b8ewZkDwl5RJn45Q5j90ZoI2HuaFMMPgP/";
         home = "/home/torgo";
         packages = with pkgs; [
-          neofetch
+          fastfetch
         ];
       };
     };
