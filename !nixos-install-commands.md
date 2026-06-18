@@ -40,15 +40,15 @@ This tutorial assumes your two disks are `vda` and `vdb`, but they may be someth
     Mem:   7.8Gi  140Mi  7.3Gi    29Mi       273Mi      7.4Gi
     Swap:     0B     0B     0B
 
-## Create a single swap partition on vdb
+## Create a single swap partition on sdb
 
     gdisk /dev/vdb
     > ?
     > o (y)
     > n (Enter,Enter,Enter,L,swap,8200)
     > w (y)
-    mkswap /dev/vdb1
-    swapon /dev/vdb1
+    mkswap /dev/sdb1
+    swapon /dev/sdb1
 
 We should now have 16GB of swap.
 
