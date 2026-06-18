@@ -64,8 +64,7 @@ We should now have 16GB of swap.
 
 ## Format and label EFI partition
 
-    mkfs.vfat /dev/vda1
-    fatlabel /dev/vda1 FIRMWARE
+    mkfs.vfat -F 32 -n FIRMWARE /dev/sda1
 
 # Set up ZFS pool
 
@@ -107,6 +106,7 @@ We should now have 16GB of swap.
     zfs create -p "$POOLNAME/local/nix"
     zfs set relatime=off "$POOLNAME/local/nix"
     zfs snapshot "$POOLNAME/local/nix@blank"
+    zfs create -p "$POOLNAME/local/var"
     zfs create -p "$POOLNAME/system/root"
     zfs snapshot "$POOLNAME/system/root@blank"
 
@@ -119,9 +119,10 @@ We should now have 16GB of swap.
 
     mount -t zfs "$POOLNAME/system/root" /mnt
     mkdir /mnt/boot /mnt/home /mnt/nix
-    mount -t vfat /dev/vda1 /mnt/boot
+    mount -t vfat /dev/disk/by-label/FIRMWARE /mnt/boot
     mount -t zfs "$POOLNAME/user/home" /mnt/home
     mount -t zfs "$POOLNAME/local/nix" /mnt/nix
+    mount -t zfs "$POOLNAME/local/var" /mnt/var
 
 ## Generate config
 

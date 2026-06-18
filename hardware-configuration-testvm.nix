@@ -19,7 +19,7 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/592C-6CAC";
+    { device = "/dev/disk/by-label/FIRMWARE";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
