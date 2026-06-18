@@ -32,7 +32,7 @@ in
         ];
         shell = pkgs.zsh;
         uid = 9000;
-        hashedPassword = "$6$2ZPIIRNC2AW5LqLQ$GGHwcEwyuGUiyxKLcCs5pxy5CwKqEvLMmpB6zLOw4/RlLPJT2VN9b8ewZkDwl5RJn45Q5j90ZoI2HuaFMMPgP/";
+        hashedPasswordFile = "/etc/nixos/secrets/torgo.passwd"; # Use a hashed password for security.
         home = "/home/torgo";
         packages = with pkgs; [
           fastfetch
@@ -42,7 +42,7 @@ in
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
       users = {
-        "torgo" = import ./home.nix;
+        "torgo" = import ./home/torgo.nix;
       };
     };
     nixpkgs.config.allowUnfree = true;
