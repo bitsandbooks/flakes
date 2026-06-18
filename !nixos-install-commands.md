@@ -26,7 +26,7 @@ You're now connected to the running nixos VM.
 
 ## Check block devices and free memory
 
-This tutorial assumes your two disks are `vda` and `vdb`, but they may be something different, like `sda` or `hda`.
+This tutorial assumes your two disks are `sda` and `sdb`, but they may be something different, like `vda` or `hda`.
 
     lsblk
     NAME  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
