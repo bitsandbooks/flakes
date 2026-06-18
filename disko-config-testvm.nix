@@ -10,7 +10,7 @@
           type = "gpt";
           partitions = {
             ESP = {
-              size = "1G";
+              size = "2G";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -34,10 +34,24 @@
     zpool = {
       trunk = {
         type = "zpool";
+        # Pool options (-o)
+        options = {
+          ashift = "12";
+          autoexpand = "on";
+          autotrim = "on";
+        };
+        # Default root dataset properties (-O)
         rootFsOptions = {
-          # Enabling LZ4 compression is highly recommended for ZFS root pools
           compression = "zstd";
-          mountpoint = "none";
+          canmount = "off";
+          mountpoint = "legacy";
+          atime = "off";
+          relatime = "on";
+          dnodesize = "auto";
+          normalization = "formD";
+          xattr = "sa";
+          acltype = "posixacl";
+          "com.sun:auto-snapshot" = "false";
         };
         datasets = {
           "system/root" = {
@@ -49,11 +63,13 @@
             type = "zfs_fs";
             mountpoint = "/home";
             options.mountpoint = "legacy";
+            postCreateHook = "zfs snapshot trunk/user/home@blank";
           };
           "local/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
             options.mountpoint = "legacy";
+            postCreateHook = "zfs snapshot trunk/local/nix@blank";
           };
           "local/var" = {
             type = "zfs_fs";

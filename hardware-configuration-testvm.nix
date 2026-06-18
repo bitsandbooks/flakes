@@ -13,33 +13,5 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "trunk/system/root";
-      fsType = "zfs";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-label/FIRMWARE";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-
-  fileSystems."/home" =
-    { device = "trunk/user/home";
-      fsType = "zfs";
-    };
-
-  fileSystems."/nix" =
-    { device = "trunk/local/nix";
-      fsType = "zfs";
-    };
-
-  fileSystems."/var" =
-    { device = "trunk/local/var";
-      fsType = "zfs";
-    };
-
-  swapDevices = [ ];
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
