@@ -19,9 +19,11 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs;};
         modules = [
+          inputs.disko.nixosModules.disko
+          inputs.home-manager.nixosModules.default
           ./configuration.nix
           ./hardware-configuration-testvm.nix
-          inputs.home-manager.nixosModules.default
+          ./disko-config-testvm.nix
         ];
       };
     };
