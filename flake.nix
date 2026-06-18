@@ -22,8 +22,8 @@
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.default
           ./configuration.nix
-          ./hardware-configuration-testvm.nix
-          ./disko-config-testvm.nix
+          ./testvm/hardware-configuration.nix
+          ./testvm/disko-config.nix
         ];
       };
     };
