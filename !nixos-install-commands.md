@@ -33,7 +33,7 @@ This tutorial assumes your two disks are `sda` and `sdb`, but they may be someth
     loop0   7:0    0 787.3M  1 loop
     sr0    11:0    1   820M  0  rom /iso
     sda   253:0    0    50G  0 disk
-    sda   253:16   0    16G  0 disk
+    sdb   253:16   0    16G  0 disk
     
     free -h
            total   used   free  shared  buff/cache  available
