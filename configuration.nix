@@ -98,6 +98,14 @@
   user-configuration.groupName = "nihilsum";
   user-configuration.userName = "torgo";
 
+  zramSwap = {
+    enable = true;
+    # Limit the zram disk to a maximum of 75% of total system RAM
+    memoryPercent = 75;
+    # Cap the absolute maximum size at 6 GB (Nix evaluates this math directly into bytes)
+    memoryMax = 6 * 1024 * 1024 * 1024;
+  };
+
   # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
   # and migrated your data accordingly.
   #
