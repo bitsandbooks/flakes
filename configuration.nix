@@ -34,7 +34,7 @@
     supportedFilesystems = [ "zfs" ];
     zfs = {
       devNodes = "/dev/disk/by-partuuid"; # Necessary for zpool to import on boot.
-      forceImportRoot = false; # default as of 26.11
+      # forceImportRoot = false; # default as of 26.11
     };
   };
 
