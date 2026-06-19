@@ -32,7 +32,7 @@ in
         ];
         shell = pkgs.zsh;
         uid = 9000;
-        hashedPasswordFile = "/etc/nixos/secrets/torgo.passwd"; # Use a hashed password for security.
+        hashedPasswordFile = "./secrets/torgo.passwd"; # Use a hashed password for security.
         home = "/home/torgo";
         packages = with pkgs; [
           fastfetch
