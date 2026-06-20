@@ -51,19 +51,108 @@
     file = {
       ".config/home-manager/home.nix".source = ./torgo.nix;
       ".config/git/ignore".text = ''
-        .DS_Store
+        # Numerous always-ignore extensions #
+        #####################################
+        *~
+        *.temp
+        *.diff
+        *.err
+        *.orig
+        *.log
+        *.rej
+        *.swo
+        *.swp
+        *.vi
+        *.sass-cache
+        .temp
+        temp/*
+        tmp/*
+
+        # OS and/or Editor files/folders #
+        ##################################
+        *.esproj
+        *.komodoproject
+        *.sublime-project
+        *.sublime-workspace
         ._*
-        .st*
-        .venv
-        venv
         .cache
+        .vscode
         .DS_Store
+        .komodotools
+        .project
+        .settings
         .Spotlight-V100
         .DocumentRevisions-V100
+        .tmproj
         .Trashes
         Thumbs.db
         desktop.ini
+        nbproject
+
+        # Xcode rubbish #
+        #################
+        *.mode1
+        *.mode1v3
+        *.mode2v3
+        *.perspective
+        *.perspectivev3
+        *.pbxuser
+        VersionX-revision.h
+        xcuserdata/*
+
+        # Build products #
+        ##################
+        *.[oa]
+        *.pyc
+        build/*
+
+        # Other source repository directories #
+        #######################################
+        .CVS
+        .hg
+        .idea
+        .svn
+        CVS
+
+        # Automatic backup files #
+        ##########################
+        *~.nib
+        *.swp
+        *(Autosaved).rtfd/
+        Backup[ ]of[ ]*.pages/
+        Backup[ ]of[ ]*.key/
+        Backup[ ]of[ ]*.numbers/
+        
+        # SyncThing metadata #
+        ######################
+        .stfolder
+
+        # Python Pip and UV environments #
+        ##################################
+        .venv
+        venv
       '';
+      ".gitconfig".text = ''
+        [user]
+            name = Rob Dumas
+            email = robdumas@gmail.com
+            signingkey = A12A2DC372239176F5149EA54853BF25C93EE1F6
+        [core]
+            excludesfile = /Users/rob/.local/gitignore.txt
+        [difftool "sourcetree"]
+            cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+            path =
+        [mergetool "sourcetree"]
+            cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+            trustExitCode = true
+        [commit]
+            template = /Users/rob/.stCommitMsg
+            gpgsign = true
+        [init]
+            defaultBranch = trunk
+        [gpg]
+            program = /usr/local/MacGPG2/bin/gpg2
+            format = openpgp
     };
 
     # Home Manager can also manage your environment variables through
