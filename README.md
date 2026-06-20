@@ -11,7 +11,7 @@ Start here: on a libvirt host with a VM booted from the NixOS ISO. The VM in thi
     ip addr
     1: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
         link/ether 52:54:00:26:55:c3 brd ff:ff:ff:ff:ff:ff
-        inet 192.168.122.212/24 brd 192.168.110.255 scope global dynamic noprefixroute enp7s0
+        inet 192.168.122.212/24 brd 192.168.122.255 scope global dynamic noprefixroute enp7s0
            valid_lft 2662sec preferred_lft 2662sec
 
 ## Now go to another machine on the same network and SSH in
