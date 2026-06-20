@@ -153,6 +153,7 @@
         [gpg]
             program = /usr/local/MacGPG2/bin/gpg2
             format = openpgp
+      '';
     };
 
     # Home Manager can also manage your environment variables through
@@ -183,7 +184,7 @@
       shellAliases = {
         ll = "ls -ahl --color=auto";
         lld = "ll | grep \"^d\"";
-        path="echo $PATH | tr '\'':'\'' '\''\n'\'";
+        path="echo $PATH | tr ':' '\\n'";
         update = "sudo nixos-rebuild switch";
       };
       oh-my-zsh = {
