@@ -50,6 +50,20 @@
       # '';
     file = {
       ".config/home-manager/home.nix".source = ./torgo.nix;
+      ".config/git/ignore".text = ''
+        .DS_Store
+        ._*
+        .st*
+        .venv
+        venv
+        .cache
+        .DS_Store
+        .Spotlight-V100
+        .DocumentRevisions-V100
+        .Trashes
+        Thumbs.db
+        desktop.ini
+      '';
     };
 
     # Home Manager can also manage your environment variables through
@@ -79,7 +93,7 @@
       enable = true;
       shellAliases = {
         ll = "ls -ahl --color=auto";
-        lsd = "ll | grep \"^d\"";
+        lld = "ll | grep \"^d\"";
         path="echo $PATH | tr '\'':'\'' '\''\n'\'";
         update = "sudo nixos-rebuild switch";
       };
