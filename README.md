@@ -2,23 +2,23 @@
 
 Start here: on a libvirt host with a VM booted from the NixOS ISO. The VM in this tutorial has one disk attached for the UEFI system partition and the ZFS pool that NixOS will use.
 
-## Set password for install user nixos
+1. Set password for install user nixos
 
-    passwd
+        passwd
 
-## Get IP address
+2. Get IP address
 
-    ip addr
-    1: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-        link/ether 52:54:00:26:55:c3 brd ff:ff:ff:ff:ff:ff
-        inet 192.168.122.212/24 brd 192.168.122.255 scope global dynamic noprefixroute enp7s0
-           valid_lft 2662sec preferred_lft 2662sec
+        ip addr
+        1: enp7s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+            link/ether 52:54:00:26:55:c3 brd ff:ff:ff:ff:ff:ff
+            inet 192.168.122.212/24 brd 192.168.122.255 scope global dynamic noprefixroute enp7s0
+               valid_lft 2662sec preferred_lft 2662sec
 
-## Now go to another machine on the same network and SSH in
+3. Now go to another machine on the same network and SSH in
 
-    ssh -o PreferredAuthentications=password -o UserKnownHostsFile=/dev/null nixos@192.168.122.212
+        ssh -o PreferredAuthentications=password -o UserKnownHostsFile=/dev/null nixos@192.168.122.212
 
-You're now connected to the running nixos VM.
+    You're now connected to the running nixos VM.
 
 ## Become the superuser
 
