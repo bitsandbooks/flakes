@@ -137,22 +137,8 @@
             name = Rob Dumas
             email = robdumas@gmail.com
             signingkey = A12A2DC372239176F5149EA54853BF25C93EE1F6
-        [core]
-            excludesfile = /Users/rob/.local/gitignore.txt
-        [difftool "sourcetree"]
-            cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-            path =
-        [mergetool "sourcetree"]
-            cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-            trustExitCode = true
-        [commit]
-            template = /Users/rob/.stCommitMsg
-            gpgsign = true
         [init]
             defaultBranch = trunk
-        [gpg]
-            program = /usr/local/MacGPG2/bin/gpg2
-            format = openpgp
       '';
     };
 
