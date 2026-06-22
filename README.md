@@ -32,7 +32,7 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
         NAME  MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
         loop0   7:0    0 787.3M  1 loop
         sr0    11:0    1   820M  0  rom /iso
-        sda   253:0    0    50G  0 disk
+        sda   253:0    0    64G  0 disk
         
         $ free -h
                total   used   free  shared  buff/cache  available
