@@ -16,7 +16,7 @@ You are now connected to the VM and ready for install.
 
 ## Flake or Manual Installation?
 
-This repo contains a simple flake for a `testvm` virtual machine, or you can partition the system manually. Choose one, then move on to the **Ready for Intall!** section.
+This repo contains a simple flake for a `testvm` virtual machine, or you can partition the system manually. Choose one, then move on to the **Ready for Install!** section.
 
 ### Using Flakes and Disko
 
@@ -158,6 +158,6 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
 
 ## Ready for Intall!
 
-Install Nixos with: `nixos-install`.
+Install Nixos with: `nixos-install --flake /etc/nixos#testvm`.
 
 When the installer ends, you'll be back where you started: a terminal prompt. You can now reboot or shutdown, and remove the ISO from the virtual ROM drive. Once the machine boots up again, you should be able to log in with `torgo` and the user's password.
