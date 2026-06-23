@@ -99,7 +99,7 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
             - `canmount=off`: for NixOS installs, because the installer will set up mounts
             - `mountpoint=legacy`: for NixOS installs, because the installer will set up mounts
             - `relatime=on`: turn on "relative access time" which cuts down on pointless disk I/O ops
-            - `dnodesize=auto`: set to `auto if the dataset uses the xattr=sa property
+            - `dnodesize=auto`: set to `auto` if the dataset uses the xattr=sa property
             - `normalization=formD`: enforce UTF-8 filenames
             - `xattr=sa`: store extended attributes directly in the inodes
             - `acltype=posixacl`: use POSIX-compatible access control lists
