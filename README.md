@@ -164,7 +164,7 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
         
         14. Create a password hash with...
         
-                `openssl passwd -6`
+                openssl passwd -6
             
             ...and copy the hash into a file called `/mnt/etc/nixos/secrets/torgo.passwd`.
 
