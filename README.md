@@ -168,7 +168,7 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
             
             ...and copy the hash into a file called `/mnt/etc/nixos/secrets/torgo.passwd`.
 
-## Ready for Intall!
+## Ready for Install!
 
 Install Nixos with: `nixos-install --flake /etc/nixos#testvm`.
 
