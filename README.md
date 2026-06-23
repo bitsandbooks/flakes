@@ -74,18 +74,17 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
             
             Note the *lowercase* "-o", which represents *options set on the pool and its devices*.
             
-            The `ashift=12` property tells ZFS to make sure to use larger 4 KB sectors on the disk instead of the older 512 B sectors, and the `autotrim=on` property allows the zpool to trim old blocks
+            The `ashift=12` property tells ZFS to make sure to use larger 4 KB sectors on the disk instead of the older 512 B sectors.
             
             You can also add:
             
-            - The `autotrim=on` property is great for pools on solid-state disks, as it allows ZFS to efficiently manage the SSD's "trim" command. 
+            - The `autotrim=on` property is great for pools on solid-state disks, as it allows ZFS to efficiently trim old blocks on the disk. 
             - The `autoexpand=on` property for multi-disk pools (such as many common "striped" RAID arrays) so that when the disks get full, you can replace the disks one at a time with larger disks (letting the pool heal in between each) and when the last one is done, the pool will automatically increase in capacity.
         4. Set options for the default dataset with:
         
                 DATASETOPTIONS="-O compression=zstd \
                                 -O canmount=off \
                                 -O mountpoint=legacy \
-                                -O atime=off \
                                 -O relatime=on \
                                 -O dnodesize=auto \
                                 -O normalization=formD \
@@ -93,6 +92,18 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
                                 -O acltype=posixacl"
             
             (Note the *uppercase* "-O", which represents *options set on the first dataset created*, named for the pool; in this case, `trunk`. All descendent datasets inherit these settings from the default unless overriden.)
+
+            The options mean:
+
+            - `compression=zstd`: use the [zstd](https://zstandard.org/) compression algorithm
+            - `canmount=off`: for NixOS installs, because the installer will set up mounts
+            - `mountpoint=legacy`: for NixOS installs, because the installer will set up mounts
+            - `relatime=on`: turn on "relative access time" which cuts down on pointless disk I/O ops
+            - `dnodesize=auto`: set to `auto if the dataset uses the xattr=sa property
+            - `normalization=formD`: enforce UTF-8 filenames
+            - `xattr=sa`: store extended attributes directly in the inodes
+            - `acltype=posixacl`: use POSIX-compatible access control lists
+
         5. Create the ZFS pool using the options chosen with:
         
                 zpool create $POOLOPTIONS $DATASETOPTIONS $POOLNAME $VDEV
@@ -109,7 +120,7 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
                 
                 errors: No known data errors
 
-        7. Check the datasets (filesystems) in the zpool with `zfs list`.
+        7. Check the default dataset (filesystem) in the zpool with `zfs list`.
         
                 NAME   USED  AVAIL  REFER  MOUNTPOINT
                 trunk  408K  62.0G    96K  legacy
@@ -118,8 +129,9 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
 
                 zfs create -p $POOLNAME/system/root $POOLNAME/local/nix $POOLNAME/local/var $POOLNAME/user/home
             
-            The "nix" dataset doesn't need to know roughly how long ago a file in it was last accessed, so override the `relatime` property by using `zfs set`:
+            The "nix" dataset doesn't need to know roughly how long ago a file in it was last accessed, so override the `atime` and `relatime` properties by using `zfs set`:
 
+                zfs set atime=off $POOLNAME/local/nix
                 zfs set relatime=off $POOLNAME/local/nix
             
             ZFS makes taking snapshots of datasets very easy, so since we haven't yet installed, let's take snapshots of our "root" and "nix" datasets while they're still empty:
