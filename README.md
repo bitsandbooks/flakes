@@ -66,7 +66,7 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
             *Use this unique identifier instead of "sda2"*, as that short device name can change based on the order of devices recognized during boot-up.
         2. Create an environment variable for the zpool's name, with:
 
-                POOLNAME=trunk` (or whatever you want to name your zpool).
+                POOLNAME=trunk
             
         3. Set options for the zpool with:
         
