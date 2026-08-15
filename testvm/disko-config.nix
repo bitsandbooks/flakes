@@ -70,7 +70,6 @@
           "safe/home" = {
             type = "zfs_fs";
             mountpoint = "/home";
-            postCreateHook = "zfs snapshot trunk/safe/home@blank";
           };
           "safe/persist" = {
             type = "zfs_fs";
