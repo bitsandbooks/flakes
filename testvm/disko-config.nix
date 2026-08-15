@@ -53,6 +53,7 @@
           acltype = "posixacl";
           "com.sun:auto-snapshot" = "false";
         };
+        postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^trunk@blank$' || zfs snapshot trunk@blank";
         datasets = {
           "local/root" = {
             type = "zfs_fs";
