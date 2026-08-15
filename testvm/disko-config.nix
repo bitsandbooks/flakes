@@ -34,13 +34,13 @@
     zpool = {
       trunk = {
         type = "zpool";
-        # Pool options (-o)
+        # Creation-time options (-o) for the zpool
         options = {
           ashift = "12";
           autoexpand = "on";
           autotrim = "on";
         };
-        # Default root dataset properties (-O)
+        # Creating-time options (-O) for the default dataset
         rootFsOptions = {
           compression = "zstd";
           canmount = "off";

@@ -23,7 +23,6 @@
     ];
   };
 
-
   boot = {
     # PERSISTENCE: Roll the root dataset back to its blank snapshot on every boot
     initrd.postDeviceCommands = lib.mkAfter ''
