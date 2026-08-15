@@ -54,23 +54,25 @@
           "com.sun:auto-snapshot" = "false";
         };
         datasets = {
-          "system/root" = {
+          "local/root" = {
             type = "zfs_fs";
             mountpoint = "/";
-          };
-          "user/home" = {
-            type = "zfs_fs";
-            mountpoint = "/home";
-            postCreateHook = "zfs snapshot trunk/user/home@blank";
+            postCreateHook = "zfs snapshot trunk/local/root@blank";
           };
           "local/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
+            relatime = "off";
             postCreateHook = "zfs snapshot trunk/local/nix@blank";
           };
-          "local/var" = {
+          "safe/home" = {
             type = "zfs_fs";
-            mountpoint = "/var";
+            mountpoint = "/home";
+            postCreateHook = "zfs snapshot trunk/safe/home@blank";
+          };
+          "safe/persist" = {
+            type = "zfs_fs";
+            mountpoint = "/persist";
           };
         };
       };
