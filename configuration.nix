@@ -23,10 +23,12 @@
     ];
   };
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  time.timeZone = "America/Chicago";
 
   boot = {
+    # PERSISTENCE: Roll the root dataset back to its blank snapshot on every boot
+    initrd.postDeviceCommands = lib.mkAfter ''
+      zfs rollback -r trunk/local/root@blank
+    '';
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -37,6 +39,26 @@
       # forceImportRoot = false; # default as of 26.11
     };
   };
+
+  etc = {
+    # PERSISTENCE: NetworkManager connections
+    "NetworkManager/system-connections" = {
+      source = "/persist/etc/NetworkManager/system-connections/";
+    };
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment = {
+    systemPackages = with pkgs; [
+      curl
+      git
+      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      zsh
+    ];
+  };
+
+  i18n.defaultLocale = "en_US.UTF-8";
 
   networking = {
     firewall = {
@@ -56,17 +78,6 @@
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment = {
-    systemPackages = with pkgs; [
-      curl
-      git
-      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-      zsh
-    ];
-  };
-
   programs = {
     zsh = {
       enable = true;
@@ -79,13 +90,25 @@
     openssh = {
       enable = true; # Enable the OpenSSH daemon.
       settings.PermitRootLogin = "yes";
+      hostKeys = [
+        # PERSISTENCE: SSH host keys
+        {
+          path = "/persist/etc/ssh/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+        {
+          path = "/persist/etc/ssh/ssh_host_rsa_key";
+          type = "rsa";
+          bits = 4096;
+        }
+      ];
     };
-    # pipewire = {
-    #   # sound server
-    #   enable = true;
-    #   pulse.enable = true;
-    # };
-    # printing.enable = true; # Enable CUPS to print documents.
+    pipewire = {
+      # sound server
+      enable = true;
+      pulse.enable = true;
+    };
+    printing.enable = true; # Enable CUPS to print documents.
     qemuGuest.enable = true;
     # services.xserver = {
     #   enable = true;
@@ -96,6 +119,17 @@
     #   };
     # };
   };
+
+  # Systemd stuff that should persist
+  systemd = {
+    # PERSISTENCE: Bluetooth pairing information, ACME certificates, etc.
+    tmpfiles.rules = [
+      "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
+      "L /var/lib/acme - - - - /persist/var/lib/acme"
+    ];
+  };
+
+  time.timeZone = "America/Chicago";
 
   # Module stuff
   user-configuration.enable = true;
