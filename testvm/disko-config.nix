@@ -62,9 +62,6 @@
           "local/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
-            properties = {
-              relatime = "off";
-            };
             postCreateHook = "zfs snapshot trunk/local/nix@blank";
           };
           "safe/home" = {
