@@ -39,16 +39,15 @@
     };
   };
 
-  etc = {
-    # PERSISTENCE: NetworkManager connections
-    "NetworkManager/system-connections" = {
-      source = "/persist/etc/NetworkManager/system-connections/";
-    };
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
+    etc = {
+      # PERSISTENCE: NetworkManager connections
+      "NetworkManager/system-connections" = {
+        source = "/persist/etc/NetworkManager/system-connections/";
+      };
+    };
     systemPackages = with pkgs; [
       curl
       htop
