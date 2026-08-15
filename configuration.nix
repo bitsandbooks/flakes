@@ -51,6 +51,7 @@
   environment = {
     systemPackages = with pkgs; [
       curl
+      htop
       git
       vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       zsh
@@ -119,7 +120,6 @@
     # };
   };
 
-  # Systemd stuff that should persist
   systemd = {
     # PERSISTENCE: Bluetooth pairing information, ACME certificates, etc.
     tmpfiles.rules = [
@@ -131,9 +131,31 @@
   time.timeZone = "America/Chicago";
 
   # Module stuff
-  user-configuration.enable = true;
-  user-configuration.groupName = "nihilsum";
-  user-configuration.userName = "torgo";
+  user-configuration = {
+    enable = true;
+    users.torgo = {
+      uid = 9000;
+      gid = 9000;
+      groupName = "nihilsum";
+      description = "Torgo the Caretaker";
+      packages = with pkgs; [
+        btop
+        fastfetch
+        uv
+      ];
+    };
+    users.rob = {
+      uid = 9001;
+      gid = 9000;
+      groupName = "nihilsum";
+      description = "Rob Dumas";
+      packages = with pkgs; [ 
+        btop
+        fastfetch
+        uv
+      ];
+    };
+  };
 
   zramSwap = {
     enable = true;
