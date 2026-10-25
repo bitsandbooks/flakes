@@ -152,35 +152,6 @@
         btop
       ];
     };
-    users.rob = {
-      uid = 9001;
-      gid = 9000;
-      groupName = "nihilsum";
-      createGroup = false;
-      description = "Rob Dumas";
-      packages = with pkgs; [
-        ansible
-        ansible-lint
-        btop
-        caddy
-        pi-coding-agent
-        vimPlugins.ansible-vim
-      ];
-    };
-    users.julie = {
-      uid = 9002;
-      gid = 9000;
-      groupName = "nihilsum";
-      createGroup = false;
-      description = "Julie Fab Finch";
-      packages = with pkgs; [
-        nginx
-        nginx-doc
-        php
-        php-fpm
-        pi-coding-agent
-      ];
-    };
   };
 
   zramSwap = {
