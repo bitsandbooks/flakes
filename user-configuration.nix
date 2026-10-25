@@ -52,13 +52,13 @@ let
 
       extraGroups = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [ "wheel" ];
+        default = [ ];
         description = "Supplementary groups for the user.";
       };
 
       shell = lib.mkOption {
         type = lib.types.package;
-        default = pkgs.zsh;
+        default = pkgs.bash;
         description = "Login shell package.";
       };
 

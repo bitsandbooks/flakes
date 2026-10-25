@@ -49,11 +49,20 @@
       };
     };
     systemPackages = with pkgs; [
+      bash-completion
       curl
-      htop
+      fastfetch
+      fzf
       git
+      htop
+      magic-wormhole
+      uv
       vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      vimPlugins.fzf-vim
+      vimPlugins.vim-nix
       zsh
+      zsh-completions
+      zsh-syntax-highlighting
     ];
   };
 
@@ -69,7 +78,7 @@
         22
       ];
     };
-    hostId = "0123abcd"; # Hex value; required for ZFS.
+    hostId = "0123abcd"; # Random 8-digit hex value; required for ZFS.
     hostName = "nixos-2605-base"; # Define your hostname.
     networkmanager.enable = true;
     # Configure network proxy if necessary
@@ -133,25 +142,43 @@
   user-configuration = {
     enable = true;
     users.torgo = {
+      # required user
       uid = 9000;
       gid = 9000;
       groupName = "nihilsum";
+      createGroup = true;
       description = "Torgo the Caretaker";
       packages = with pkgs; [
         btop
-        fastfetch
-        uv
       ];
     };
     users.rob = {
       uid = 9001;
       gid = 9000;
       groupName = "nihilsum";
+      createGroup = false;
       description = "Rob Dumas";
-      packages = with pkgs; [ 
+      packages = with pkgs; [
+        ansible
+        ansible-lint
         btop
-        fastfetch
-        uv
+        caddy
+        pi-coding-agent
+        vimPlugins.ansible-vim
+      ];
+    };
+    users.julie = {
+      uid = 9002;
+      gid = 9000;
+      groupName = "nihilsum";
+      createGroup = false;
+      description = "Julie Fab Finch";
+      packages = with pkgs; [
+        nginx
+        nginx-doc
+        php
+        php-fpm
+        pi-coding-agent
       ];
     };
   };
@@ -164,10 +191,11 @@
     memoryMax = 6 * 1024 * 1024 * 1024;
   };
 
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
+  # Do NOT change this value unless you have manually inspected all the changes
+  # it would make to your configuration, and migrated your data accordingly.
   #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+  # For more information, see `man configuration.nix` or
+  # https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
   system.stateVersion = "26.05";
 
 }
