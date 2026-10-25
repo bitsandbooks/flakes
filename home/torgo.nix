@@ -67,7 +67,7 @@
         .temp
         temp/*
         tmp/*
-
+        
         # OS and/or Editor files/folders #
         ##################################
         *.esproj
@@ -88,7 +88,7 @@
         Thumbs.db
         desktop.ini
         nbproject
-
+        
         # Xcode rubbish #
         #################
         *.mode1
@@ -99,13 +99,13 @@
         *.pbxuser
         VersionX-revision.h
         xcuserdata/*
-
+        
         # Build products #
         ##################
         *.[oa]
         *.pyc
         build/*
-
+        
         # Other source repository directories #
         #######################################
         .CVS
@@ -113,7 +113,7 @@
         .idea
         .svn
         CVS
-
+        
         # Automatic backup files #
         ##########################
         *~.nib
@@ -126,7 +126,7 @@
         # SyncThing metadata #
         ######################
         .stfolder
-
+        
         # Python Pip and UV environments #
         ##################################
         .venv
