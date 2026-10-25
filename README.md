@@ -2,6 +2,8 @@
 
 Start here: on a libvirt host with a VM booted from the NixOS ISO. The VM in this tutorial has one disk attached for the UEFI system partition and the ZFS pool that NixOS will use. It has 8 GB of memory, which our configuration files will augment with a 6 GB zram swap device.
 
+This repo should allow you to bring up a simple virtual machine called **testvm**, including a user with sudo privileges named **torgo** (who ["takes care of the place while the master is away"](https://youtu.be/LneQo-4qE3I).)
+
 1. Set the password for the installer's default user "nixos" with `passwd`.
 2. Get the IP address of the virtual machine with `ip addr`. Look for the connected network device. for example:
 
@@ -16,13 +18,19 @@ You are now connected to the VM and ready for install.
 
 ## Flake or Manual Installation?
 
-This repo contains a simple flake for a `testvm` virtual machine, or you can partition the system manually. Choose one, then move on to the **Ready for Install!** section.
+This repo contains a simple flake with partitions by disko, or you can partition the system manually. Choose one, then move on to the **Ready for Install!** section.
 
 ### Using Flakes and Disko
 
 1. Clone the repo to the VM with `git clone https://github.com/bitsandbooks/flakes.git`.
-2. Partitionthe disk using disko with `sudo nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode disko --flake ./flakes#testvm`.
-3. Install NixOS on the newly-partitioned disk with `sudo nixos-install --flake ./flakes#testvm`. The installer will run for a while.
+2. Partition the disk using disko with `sudo nix --extra-experimental-features 'nix-command flakes' run github:nix-community/disko -- --mode disko --flake ./flakes#testvm`.
+3. Create a folder for system configuration in the root dataset, move the flake folder over to the new configuration folder, then change its permissions to be root-only:
+
+        sudo mkdir /mnt/etc
+        sudo mv ~/flakes /mnt/etc/nixos
+        sudo chown -Rv root:root /mnt/etc/nixos
+
+4. Skip down to the "Password Hash for Sudo User" section.
 
 ### Using the Manual Method
 
@@ -144,32 +152,39 @@ This repo contains a simple flake for a `testvm` virtual machine, or you can par
                 zfs list
                 zfs list -t snapshot
         
-        10. Mount the root dataset at `/mnt`, create folders inside the root into which we can mount our other respective datasets, then mount them:
+        10. Mount the root dataset at `/mnt`, create folders inside the root into which we can put our configuration and mount our other datasets:
         
                 mount -t zfs $POOLNAME/system/root /mnt
-                mkdir /mnt/boot /mnt/home /mnt/nix /mnt/var
+                mkdir /mnt/boot /mnt/etc /mnt/home /mnt/nix /mnt/var
                 mount -t vfat /dev/disk/by-label/FIRMWARE /mnt/boot
                 mount -t zfs $POOLNAME/user/home /mnt/home
                 mount -t zfs $POOLNAME/local/nix /mnt/nix
                 mount -t zfs $POOLNAME/local/var /mnt/var
         
-        11. Go to the nixos-config folder with `cd /mnt/etc/nixos`.
         12. Clone the flake to the new install with:
 
-                git clone https://github.com/bitsandbooks/flakes.git .
+                sudo git clone https://github.com/bitsandbooks/flakes.git /mnt/etc/nixos
 
-        13. Generate your hardware config
+### Password Hash for Sudo User
 
-                nixos-generate-config --root /mnt
+Before installation can proceed, a password hash for the sudo user is needed.
+
+1. Create a `secrets` folder with root-only permissions:
+
+        sudo mkdir /mnt/etc/nixos/secrets
+        sudo chmod 0700 /mnt/etc/nixos/secrets
+
+2. OpenSSL, the easiest way to create a password hash, is not available by default on the bootable installer, but thanks to the nature of NixOS, you can use `nix-shell` to open a temporary command prompt (or *shell*, in Unix terms) where `openssl` is available, which you can then use to write the password hash to a file, before exiting the temporary shell (thus returning to the "original" shell) and move the file into its proper place with root-only permissions.
         
-        14. Create a password hash with...
-        
-                openssl passwd -6
-            
-            ...and copy the hash into a file called `/mnt/etc/nixos/secrets/torgo.passwd`.
+        nix-shell -p openssl               # open a temporary shell
+        openssl passwd -6 > ~/torgo.passwd # get what you need from it
+        exit                               # return to the original shell
+        sudo mv ~/torgo.passwd /mnt/etc/nixos/secrets/
+        sudo chown root:root /mnt/etc/nixos/secrets/torgo.passwd
+        sudo chmod 0600 /mnt/etc/nixos/secrets/torgo.passwd
 
 ### Ready for Install!
 
-Install Nixos with: `nixos-install --flake /mnt/etc/nixos#testvm`.
+Install Nixos with: `sudo nixos-install --flake /mnt/etc/nixos#testvm`.
 
 When the installer ends, you'll be back where you started: a terminal prompt. You can now reboot or shutdown, and remove the ISO from the virtual ROM drive. Once the machine boots up again, you should be able to log in with `torgo` and the user's password.
