@@ -25,9 +25,20 @@
 
   boot = {
     # PERSISTENCE: Roll the root dataset back to its blank snapshot on every boot
-    initrd.postDeviceCommands = lib.mkAfter ''
-      zfs rollback -r trunk/local/root@blank
-    '';
+    initrd = {
+      systemd.enable = true; # Ensures systemd stage 1 is enabled
+      systemd.services.zfs-rollback = {
+      description = "Roll back ZFS root dataset to blank snapshot";
+      wantedBy = [ "initrd.target" ];
+      after = [ "zfs-import-trunk.service" ];
+      before = [ "sysroot.mount" ];
+      path = with pkgs; [ zfs ];
+      unitConfig.DefaultDependencies = false;
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${config.boot.zfs.package}/sbin/zfs rollback -r trunk/local/root@blank";
+      };
+    };
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
